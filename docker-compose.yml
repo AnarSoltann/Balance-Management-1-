@@ -1,0 +1,35 @@
+services:
+  mysql:
+    container_name: mysql-bc
+    image: mysql:5.7
+    env_file:
+      - secrets.env
+    volumes:
+      - mysql:/var/lib/mysql
+    ports:
+      - 3307:3306
+    networks:
+      - spring-demo
+    restart: unless-stopped
+  mail-dev:
+    container_name: mail-dev-bc
+    image: maildev/maildev
+    ports:
+      - 1080:1080
+      - 1025:1025
+    environment:
+      MAILDEV_OUTGOING_HOST: smtp.gmail.com
+      MAILDEV_OUTGOING_SECURE: "true"
+      MAILDEV_AUTO_RELAY: "true"
+      MAILDEV_AUTO_RELAY_RULES: /config/relay-rules.json
+    env_file:
+      - secrets.env
+    volumes:
+      - ./relay-rules.json:/config/relay-rules.json
+networks:
+  spring-demo:
+    driver: bridge
+
+volumes:
+  mysql:
+    driver: local

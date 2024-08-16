@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: dev
+  config:
+      import: optional:secrets.yml
+springdoc:
+  default-consumes-media-type: application/json
+server:
+  servlet:
+    context-path: /api/v1
+logging:
+  level:
+    root: info
+  file:
+    name: myapp.log
+    max-size: 10MB
+    max-history: 10
+    path: /var/log/myapp
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
+
